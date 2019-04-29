@@ -25,10 +25,9 @@ app.get('/', (req, res) => {
   request('http://localhost:8000/api/watchLists/1', function (error, response, body) {
     if (!error && response.statusCode == 200) {
       console.log(body);
-      console.log(body.watchListItems);
       res.render('index', {
         title: 'Your WatchList',
-        content: body.watchListItems
+        content: JSON.parse(body)
       });
     }
     else{
@@ -48,7 +47,7 @@ app.get('/search', (req, res) => {
 // Search page with a searched index
 app.get('/search/:toSearch', (req, res) => {
   searchMovie(req.params.toSearch, function(msg) {
-    res.render('search', {
+    res.render('searchSomething', {
       title: 'Search',
       search: msg
     });
@@ -81,7 +80,20 @@ app.post('/submit-form', (req, res) => {
 // Add requested movie to watchlist
 app.post('/add', (req, res) => {
   const toAdd = req.body.title;
-  res.redirect('/api/watchLists/1/' + toAdd);
+  const request = require('request');
+  request.post('http://localhost:8000/api/watchLists/1/items', {
+    json: {
+      content: toAdd
+    }
+  }, (error, res, body) => {
+  if (error) {
+    console.error(error)
+    return
+  }
+  console.log(`statusCode: ${res.statusCode}`)
+  console.log(body)
+  });
+  res.redirect('/');
 });
 
 // Any other page attempt to be called

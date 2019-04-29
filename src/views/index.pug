@@ -4,5 +4,6 @@ block content
   // Ellie Parobek
   // Home page
   div.container
-    each result in content
-      h4 result.Title
+    ol
+      each result in content.watchListItems
+        li #{result.content}

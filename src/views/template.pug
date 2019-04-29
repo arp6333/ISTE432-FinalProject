@@ -12,6 +12,13 @@ html
   body
     main
       block header
-        header.header
-          h1 #{title}
+        div.nav-wrapper
+          ul(class='right')
+            li
+              a(href="/") Your WatchList
+            li
+              a(href="/search") Search
+            li
+              a(href="https://github.com/arp6333/ISTE432-FinalProject") GitHub
+        h3 #{title}
       block content
