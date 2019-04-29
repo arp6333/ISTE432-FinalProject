@@ -21,9 +21,20 @@ require('./server/routes')(app);
 
 // Home page
 app.get('/', (req, res) => {
-    res.render('index', {
-      title: 'Home'
-    });
+  const request = require('request');
+  request('http://localhost:8000/api/watchLists/1', function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(body);
+      console.log(body.watchListItems);
+      res.render('index', {
+        title: 'Your WatchList',
+        content: body.watchListItems
+      });
+    }
+    else{
+      console.log(error);
+    }
+  });
 });
 
 // Search page
@@ -70,6 +81,7 @@ app.post('/submit-form', (req, res) => {
 // Add requested movie to watchlist
 app.post('/add', (req, res) => {
   const toAdd = req.body.title;
+  res.redirect('/api/watchLists/1/' + toAdd);
 });
 
 // Any other page attempt to be called
