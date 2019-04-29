@@ -1,11 +1,11 @@
-// Ellie Parobek
-// Search page
 extends template
 
 block content
+  // Ellie Parobek
+  // Search page
   div.main
-    input(type='text', placeholder='Search')
-    a(class='button' href='/search/') Search
+    input(type='text', placeholder='Search', id='searchBar')
+    button(type='button', placeholder='Go', onclick='go()')
   div.results
     each result in search
       div.result

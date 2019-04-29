@@ -31,3 +31,9 @@ function getMovie(toGetTitle, toGetYear){
         return movie;
     });
 }
+
+// Redirect to searched page.
+function go(){
+    var toSearch = document.getElementById('searchBar').value;
+    window.location.replace("./search/" + toSearch);
+}

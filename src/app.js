@@ -3,7 +3,7 @@
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-var scripts = include('./public/js/script.js')
+var scripts = require('./public/js/script.js')
 
 // Express info
 const app = express();
