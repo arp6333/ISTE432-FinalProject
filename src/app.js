@@ -42,7 +42,10 @@ app.get('/search/:toSearch', (req, res) => {
 
 // Any other page attempt to be called
 app.get('*', (req, res) => {
-  res.send('404 - Page Not Found');
+  res.render('error', {
+    title: 'Error',
+    code: '404 - Page not found.'
+  });
 });
 
 module.exports = app;

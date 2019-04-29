@@ -37,7 +37,7 @@ WatchList allows users to add movies and TV shows into a list to watch. The list
 
 * PostGreSQL (using ElephantSQL) / Sequelize (a database ORM)
 
-* HTML, CSS
+* HTML (through pug), CSS (Materialize Library)
 
 ## Design Patterns
 
@@ -219,7 +219,7 @@ Existing examples of "efficient" code:
   
 ### PostGreSQL conversion
 
-The project was started in PostGreSQL so nothing needed to change. ElephantSQL uses PostGreSQL and the ORM Sequelize allows us to easily control it.
+The project was started in PostGreSQL so nothing needed to change. ElephantSQL uses PostGreSQL and the ORM Sequelize allows us to easily control it using Node.
 
 ## Unit Testing
 
@@ -248,6 +248,6 @@ This testing method can be repeated the same way with all of our functions. Remo
 
 | Date       | User | Title            | Description |
 |:-----------|:-----|:-----------------|: -----------|
-| 04/26/19 | Ellie | Created Document | Edited existing document and filled out each section with new information. |
-| 04/27/19 | Ellie  | Back-end Creation  | Created entire back-end. |
-| 04/28/19 | Ellie  | Front-end Creation  | Created entire front-end. |
+| 04/26/19 | Ellie | Created Document | Edited existing document. |
+| 04/27/19 | Ellie  | Back-end Creation  | Created back-end. |
+| 04/28/19 | Ellie  | Front-end Creation  | Created front-end. |

@@ -3,5 +3,11 @@
 extends template
 
 block content
-  div.container
-    p Hello World
+  div.main
+    input(type='text', placeholder='Search')
+    a(class='button' href='/search/') Search
+  div.results
+    each result in search
+      div.result
+        h2.result-name
+          | #{result.title} #{result.year}
