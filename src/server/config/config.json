@@ -1,0 +1,19 @@
+{
+  "development": {
+    "use_env_variable": "DATABASE_URL"
+  },
+  "test": {
+    "username": "tsdivvwf",
+    "password": "5nQgHrrcGWPBQ1hdYG_0n3hsHrT1nNKB",
+    "database": "database_development",
+    "host": "isilo.db.elephantsql.com",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "tsdivvwf",
+    "password": "5nQgHrrcGWPBQ1hdYG_0n3hsHrT1nNKB",
+    "database": "database_development",
+    "host": "isilo.db.elephantsql.com",
+    "dialect": "postgres"
+  }
+}
