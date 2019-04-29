@@ -5,6 +5,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 var scripts = require('./public/js/script.js');
 var searchMovie = scripts.searchMovie;
+var getMovie = scripts.getMovie;
 
 // Express info
 const app = express();
@@ -36,9 +37,25 @@ app.get('/search', (req, res) => {
 // Search page with a searched index
 app.get('/search/:toSearch', (req, res) => {
   searchMovie(req.params.toSearch, function(msg) {
-    console.log(msg);
     res.render('search', {
       title: 'Search',
+      search: msg
+    });
+  });
+});
+
+// Info page
+app.get('/info', (req, res) => {
+  res.redirect('/search');
+});
+
+// Get more info on selected movie
+app.post('/get-info', (req, res) => {
+  const title = req.body.title;
+  const year = req.body.year.substr(0, 4);
+  getMovie(title, year, function(msg) {
+    res.render('info', {
+      title: title,
       search: msg
     });
   });
@@ -50,8 +67,31 @@ app.post('/submit-form', (req, res) => {
   res.redirect('/search/' + toSearch);
 });
 
+// Add requested movie to watchlist
+app.post('/add', (req, res) => {
+  const toAdd = req.body.title;
+});
+
 // Any other page attempt to be called
 app.get('*', (req, res) => {
+  res.render('error', {
+    title: 'Error',
+    code: '404 - Page not found.'
+  });
+});
+app.post('*', (req, res) => {
+  res.render('error', {
+    title: 'Error',
+    code: '404 - Page not found.'
+  });
+});
+app.delete('*', (req, res) => {
+  res.render('error', {
+    title: 'Error',
+    code: '404 - Page not found.'
+  });
+});
+app.put('*', (req, res) => {
   res.render('error', {
     title: 'Error',
     code: '404 - Page not found.'

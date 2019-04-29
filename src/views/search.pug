@@ -6,9 +6,11 @@ block content
   div.main
     form(method='post', action='/submit-form')
       input(type='text', placeholder='Search', name='search')
-      input(type='submit' id='searchButton')
+      input(type='submit' id='searchButton' value='Search' class='waves-effect btn')
   div.results
     each result in search
       div.result
-        h2.result-name
-          | #{result.Title} #{result.Year}
+        form(method='post', action='/add')
+          input(name='title' readonly value=result.Title)
+          input(name='year' readonly value=result.Year)
+          input(type='submit' id='infoButton' value='Add to WatchList' class='waves-effect btn')

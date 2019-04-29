@@ -11,34 +11,30 @@ module.exports = {
         }
         omdb.search(params, function(err, movies) {
             if(err) {
-                return '{ error: "' + err + '" }';
+                callback('{ error: "' + err + '" }');
             }
             
             if(movies.length < 1) {
-                return '{ error: "No movies found!" }';
+                callback('{ error: "No movies found!" }');
             }
             callback(movies['Search']);
         });
     },
 
-    // Get info on a given name, using the year it came out as well in case of duplicates.
-    getMovie: function(toGetTitle, toGetYear){
+    // Get info on a given movie.
+    getMovie: function(toGet, yearGet, callback){
         var omdb = require('omdb-client');
         var params = {
             apiKey: '906d3817',
-            query: toGetTitle,
-            year: toGetYear
+            query: toGet,
+            year: parseInt(yearGet)
         }
-        omdb.get(params, true, function(err, movie) {
+        omdb.search(params, function(err, movie) {
             if(err) {
-                return '{ error: "' + err + '" }';
+                callback('{ error: "' + err + '" }');
             }
-        
-            if(!movie) {
-                return '{ error: "Movie not found!" }';
-            }
-
-            return movie;
+            console.log(movie['Search']);
+            callback(movie['Search']);
         });
-    }
+    },
 }
