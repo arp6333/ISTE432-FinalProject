@@ -240,6 +240,14 @@ we know the front-end is working as intended. For example:
 
 This testing method can be repeated the same way with all of our functions. Remove any database calls and replace the responses with hardcoded strings or JSON, call the rest of the function/ method the same way we would with a database call, then make sure the results are the same as if we were calling the database.
 
+## Packaging and Deployment
+
+The code can be downloaded off of GitHub. Once entering the folder, run 'export DATABASE_URL=postgres://tsdivvwf:5nQgHrrcGWPBQ1hdYG_0n3hsHrT1nNKB@isilo.db.elephantsql.com:5432/tsdivvwf' and then 'npm run start:dev' to start up on localhost:/8000. The database url has to be run first everytime you start up the command line, but only once. Then you can just run 'npm run start:dev' everytime you want to start up the server on your local machine.
+
+### Help
+
+Assuming a full website, a help forum would be available with someone who understood the site moderating questions and answers. At the very least, questions could be answered on StackOverFlow or some other already existing forum.
+
 ## Code Repositories
 
 [ISTE432-FinalProject](https://github.com/arp6333/ISTE432-FinalProject)
