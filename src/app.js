@@ -3,7 +3,8 @@
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-var scripts = require('./public/js/script.js')
+var scripts = require('./public/js/script.js');
+var searchMovie = scripts.searchMovie;
 
 // Express info
 const app = express();
@@ -34,10 +35,19 @@ app.get('/search', (req, res) => {
 
 // Search page with a searched index
 app.get('/search/:toSearch', (req, res) => {
-  res.render('search', {
-    title: 'Search',
-    search: scripts.searchMovie(toSearch)
+  searchMovie(req.params.toSearch, function(msg) {
+    console.log(msg);
+    res.render('search', {
+      title: 'Search',
+      search: msg
+    });
   });
+});
+
+// Get requested search and redirect
+app.post('/submit-form', (req, res) => {
+  const toSearch = req.body.search;
+  res.redirect('/search/' + toSearch);
 });
 
 // Any other page attempt to be called

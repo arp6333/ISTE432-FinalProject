@@ -4,10 +4,11 @@ block content
   // Ellie Parobek
   // Search page
   div.main
-    input(type='text', placeholder='Search', id='searchBar')
-    button(type='button', placeholder='Go', onclick='go()')
+    form(method='post', action='/submit-form')
+      input(type='text', placeholder='Search', name='search')
+      input(type='submit' id='searchButton')
   div.results
     each result in search
       div.result
         h2.result-name
-          | #{result.title} #{result.year}
+          | #{result.Title} #{result.Year}
