@@ -2,32 +2,32 @@
 // JavaScript functions needed for API calls.
 var omdb = require('omdb');
 
-var result = "";
-
+// Search by a given name.
 function searchMovie(toSearch){
     omdb.search(toSearch, function(err, movies) {
         if(err) {
-            return console.error(err);
+            return '{ error: "' + err + '" }';
         }
         
         if(movies.length < 1) {
-            return console.log('No movies were found!');
+            return '{ error: "No movies found!" }';
         }
 
-        result = movies;
+        return movies;
     });
 }
 
+// Get info on a given name, using the year it came out as well in case of duplicates.
 function getMovie(toGetTitle, toGetYear){
     omdb.get({ title: toGetTitle, year: toGetYear }, true, function(err, movie) {
         if(err) {
-            return console.error(err);
+            return '{ error: "' + err + '" }';
         }
      
         if(!movie) {
-            return console.log('Movie not found!');
+            return '{ error: "Movie not found!" }';
         }
-     
-        result = movie;
+
+        return movie;
     });
 }

@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 app.get('/search', (req, res) => {
   res.render('search', {
     title: 'Search',
-    search: scripts.searchMovie("")
+    search: "{}"
   });
 });
 

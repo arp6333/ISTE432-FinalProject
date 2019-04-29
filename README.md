@@ -1,5 +1,6 @@
 # WatchList
-ISTE 432 - Final Project 
+ISTE 432 - Final Project
+
 Development Book
 
 ## Team Members & Roles
@@ -154,9 +155,6 @@ Represented by the entire front-end, this is the portion of the application desi
 
 ```
 
-## Layer Concept Diagram
-![Layer Concept Diagram](docs/images/layers_and_process_flow.png "Layer Concept Diagram")
-
 ## Exception Handling
 
 * ValidationException
@@ -182,6 +180,7 @@ Represented by the entire front-end, this is the portion of the application desi
 * RouteException
   * 401 REQUIRED_PARAMETER_IS_INVALID
   * 402 REQUEST_INVALID
+  * 404 PAGE_NOT_FOUND
 * SecurityException
   * 501 KEY_NOT_SUPPLIED
   * 502 KEY_NOT_FOUND
@@ -223,7 +222,6 @@ Existing examples of "efficient" code:
 The project was started in PostGreSQL so nothing needed to change. ElephantSQL uses PostGreSQL and the ORM Sequelize allows us to easily control it.
 
 ## Unit Testing
-
 
 ### Front-End
 
