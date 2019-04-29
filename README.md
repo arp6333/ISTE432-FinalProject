@@ -9,7 +9,7 @@ Development Book
 
 ## Background
 
-IMdb is a way of finding and reading information about movies and TV shows. 
+IMdb is a way of finding and reading information about movies and TV shows. Being able to explore movies and save ones that interest you all in one application would be beneficial in current times when users are lazy.
 
 ## Project Description
 
@@ -65,13 +65,19 @@ module.exports = (sequelize, DataTypes) => {
 };
 ```
 
-While the front-end can represent the page displayed for searching movies and TV shows like this:
+While the front-end can represent the page displayed for searching movies and TV shows like this, using pug templating:
 
-```php
+```js
+extends template
 
+block content
+  div.main
+    form(method='post', action='/submit-form')
+      input(type='text', placeholder='Search', name='search')
+      input(type='submit' id='searchButton' value='Search' class='waves-effect btn')
 ```
 
-A controller class in the back-end looks like this, containing all the functions for the model:
+A controller class in the back-end looks like this, containing all the functions for using the database:
 
 ```js
 const WatchList = require('../models').WatchList;
@@ -149,10 +155,25 @@ Build around the REST service concept, the service layer allows retrieval and ma
 
 ### Interface Layer
 
-Represented by the entire front-end, this is the portion of the application designed for direct user input. This layer will pull information from the back-end to display to the user. Here is an example of the search page:
+Represented by the entire front-end, this is the portion of the application designed for direct user input. This layer will pull information from the back-end to display to the user. Here is an example of the search page after a user has searched something and data is retrieved:
 
-```
+```js
+extends template
 
+block content
+  // Search bar
+  div.main
+    form(method='post', action='/submit-form')
+      input(type='text', placeholder='Search', name='search')
+      input(type='submit' id='searchButton' value='Search' class='waves-effect btn')
+  // Search results
+  div.results
+    each result in search
+      div.result
+        form(method='post', action='/add')
+          input(name='title' readonly value=result.Title)
+          input(name='year' readonly value=result.Year)
+          input(type='submit' id='infoButton' value='Add to WatchList' class='waves-effect btn')
 ```
 
 ## Exception Handling
@@ -214,8 +235,11 @@ Represented by the entire front-end, this is the portion of the application desi
 
 Existing examples of "efficient" code:
 
-* Use of JSON objects to send and receive data between layers/separate applications.
-* Closing database connections when finished
+* Use of JSON objects to send and receive data between layers/separate applications. In 'src/public/js/script.js', the data from the API is pulled as JSON and sent back to the front end.
+
+* Only references what we need to reference instead of everything.
+
+* Only make database calls for what data needs to be retrieved (ex. not using 'SELECT *')
   
 ### PostGreSQL conversion
 
@@ -225,24 +249,56 @@ The project was started in PostGreSQL so nothing needed to change. ElephantSQL u
 
 ### Front-End
 
-By creating mock methods or objects to simulate our database, we can ensure that the front-end is working as intended by not requiring dependency with the back-end. For example:
+By creating mock methods or objects to simulate our database, we can ensure that the front-end is working as intended by not requiring dependency with the back-end. For example (src/public/js/script.js):
 
-* The search page makes a database call to pull search results from the API. Instead of calling the database, we give the search function a JSON string that we fabricated that is similar to what the database would actually be sending. This removes the ability to make sure the input from the user is being entered correctly as we would normally be sending user input to the database - but this will be tested when we remove the mock object (see below).
+```js
+searchMovie: function(toSearch, callback){
+      var omdb = require('omdb-client');
+      var params = {
+          apiKey: '906d3817',
+          query: toSearch
+      }
+      omdb.search(params, function(err, movies) {
+          if(err) {
+              callback('{ error: "' + err + '" }');
+          }
 
-* We can access this new page by going to “/searchTester” instead of “/search” (this is temporary and will not be kept for the final version). For this, the page needed an additional redirect to this tester page. The result instead of getting pulled from the database is hardcoded in as a string  and then sent to the JavaScript function to display the search resultsmthe same way the database pull would be sent. Then we can just make sure everything is displaying as intended.
+          if(movies.length < 1) {
+              callback('{ error: "No movies found!" }');
+          }
+          callback('{ Title: 'Test Title', Year: '2019' }');
+      });
+  },
+  ...
+```
+
+* The search page makes a database call to pull search results from the API. Instead of calling the database, we give the search function a JSON string that we fabricated that is similar to what the database would actually be sending (the 'callback' at the end of the function). This removes the ability to make sure the input from the user is being entered correctly as we would normally be sending user input to the database - but this will be tested when we remove the mock object (see below).
+
+* The result instead of getting pulled from the database is hardcoded in as a string and then sent to the function to display the search results the same way the database pull would be sent. Then we can just make sure everything is displaying as intended.
 
 ### Back-End
 
 When we remove the mock object and use the actual database for calls, this allows for testing of the back-end now that
-we know the front-end is working as intended. For example:
+we know the front-end is working as intended. For example (src/app.js line 48):
 
-* Back to the real search page, we no longer use the mock JSON string and instead call a GET request to the database for the desired search. This allows us to make sure that the front-end will work in coordination with the database and with any input entered by the user. Once we are sure this is displaying and working as intended (along with seeing that it should be displaying the same as the mock version), we know it is ready for the final version.
+```js
+app.get('/search/:toSearch', (req, res) => {
+  searchMovie(req.params.toSearch, function(msg) {
+    res.render('searchSomething', {
+      title: 'Search',
+      search: msg
+    });
+  });
+});
+```
+
+* Back to the real search page call, we no longer use the mock JSON string and instead call a GET request to the database for the desired search. This allows us to make sure that the front-end will work in coordination with the database and with any input entered by the user. Once we are sure this is displaying and working as intended (along with seeing that it should be displaying the same as the mock version), we know it is ready for the final version.
 
 This testing method can be repeated the same way with all of our functions. Remove any database calls and replace the responses with hardcoded strings or JSON, call the rest of the function/ method the same way we would with a database call, then make sure the results are the same as if we were calling the database.
 
 ## Packaging and Deployment
 
-The code can be downloaded off of GitHub. Once entering the folder, run 'export DATABASE_URL=postgres://tsdivvwf:5nQgHrrcGWPBQ1hdYG_0n3hsHrT1nNKB@isilo.db.elephantsql.com:5432/tsdivvwf' and then 'npm run start:dev' to start up on localhost:/8000. The database url has to be run first everytime you start up the command line, but only once. Then you can just run 'npm run start:dev' everytime you want to start up the server on your local machine.
+The code can be downloaded off of GitHub. Once entering the folder, run 'export DATABASE_URL=postgres://tsdivvwf:5nQgHrrcGWPBQ1hdYG_0n3hsHrT1nNKB@isilo.db.elephantsql.com:5432/tsdivvwf' and then 'npm run start:dev' to start up at 'localhost:/8000'. The database url has to be run first everytime you start up the command line, but only that one time until the command line is closed. Then you can just run 'npm run start:dev' everytime you want to start up the server on your local machine.
 
 ### Help
 
@@ -258,4 +314,4 @@ Assuming a full website, a help forum would be available with someone who unders
 |:-----------|:-----|:-----------------|: -----------|
 | 04/26/19 | Ellie | Created Document | Edited existing document. |
 | 04/27/19 | Ellie  | Back-end Creation  | Created back-end. |
-| 04/28/19 | Ellie  | Front-end Creation  | Created front-end. |
+| 04/28/19 | Ellie  | Front-end Creation  | Started front-end. |
