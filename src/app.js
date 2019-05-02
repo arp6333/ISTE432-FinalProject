@@ -1,5 +1,5 @@
 // Ellie Parobek
-// Main code for loading pages.
+// Main code for loading pages and making HTTP requests.
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
@@ -19,12 +19,15 @@ app.use(express.static(__dirname + '/public'));
 
 require('./server/routes')(app);
 
+// Get the logged in user ID.
+var user = 1;
+
 // Home page
 app.get('/', (req, res) => {
   const request = require('request');
-  request('http://localhost:8000/api/watchLists/1', function (error, response, body) {
+  var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl + 'api/watchLists/' + user;
+  request(fullUrl, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      console.log(body);
       res.render('index', {
         title: 'Your WatchList',
         content: JSON.parse(body)
@@ -81,19 +84,41 @@ app.post('/submit-form', (req, res) => {
 app.post('/add', (req, res) => {
   const toAdd = req.body.title;
   const request = require('request');
-  request.post('http://localhost:8000/api/watchLists/1/items', {
+  var fullUrl = req.protocol + '://' + req.get('host') + '/api/watchLists/' + user +'/items';
+  request.post(fullUrl, {
     json: {
       content: toAdd
     }
-  }, (error, res, body) => {
-  if (error) {
-    console.error(error)
-    return
+  },
+  (error, res, body) => {
+  if(error) {
+    console.error(error);
+    return;
   }
-  console.log(`statusCode: ${res.statusCode}`)
-  console.log(body)
+  console.log(`statusCode: ${res.statusCode}`);
   });
   res.redirect('/');
+});
+
+// Delete requested movie from watchlist
+app.post('/delete', (req, res) =>{
+  console.log('delete called');
+  const toDelete = req.body.title;
+  const itemId = req.body.itemId;
+  const request = require('request');
+  var fullUrl = req.protocol + '://' + req.get('host') + '/api/watchLists/' + user +'/items/' + itemId;
+  request.delete(fullUrl, {
+    json: {
+      content: toDelete
+    }
+  },
+  (error, res, body) => {
+  if(error) {
+    console.error(error);
+    return;
+  }
+  console.log(`statusCode: ${res.statusCode}`);
+  });
 });
 
 // Any other page attempt to be called

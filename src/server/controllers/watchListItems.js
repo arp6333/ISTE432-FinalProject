@@ -12,7 +12,7 @@ module.exports = {
   },
   update(req, res) {
     return WatchListItem
-      .find({
+      .findOne({
           where: {
             id: req.params.watchListItemId,
             watchListId: req.params.watchListId,
@@ -36,7 +36,7 @@ module.exports = {
   },
   destroy(req, res) {
     return WatchListItem
-      .find({
+      .findOne({
           where: {
             id: req.params.watchListItemId,
             watchListId: req.params.watchListId,

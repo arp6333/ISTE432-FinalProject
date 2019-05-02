@@ -13,8 +13,10 @@ module.exports = {
             if(err) {
                 callback('{ error: "' + err + '" }');
             }
-            
-            if(movies.length < 1) {
+            else if(movies === null) {
+                callback('{ error: "No movies found!" }');
+            }
+            else if(movies.length < 1) {
                 callback('{ error: "No movies found!" }');
             }
             callback(movies['Search']);
@@ -33,7 +35,6 @@ module.exports = {
             if(err) {
                 callback('{ error: "' + err + '" }');
             }
-            console.log(movie['Search']);
             callback(movie['Search']);
         });
     },
