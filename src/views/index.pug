@@ -7,6 +7,7 @@ block content
     ol
       each result in content.watchListItems
         form(method='post', action='/delete')
-          input(name='title' readonly value=result.content)
+          input(name='title' href='/info' readonly value=result.content)
           input(class='hidden' name='itemId' value=result.id)
+          input(type='button' id='moreInfoButton' onclick="location.href = '/info';" value='More Info' class='waves-effect btn purple darken-2')
           input(type='submit' id='deleteButton' value='Delete From WatchList' class='waves-effect btn red darken-2')

@@ -57,19 +57,14 @@ app.get('/search/:toSearch', (req, res) => {
   });
 });
 
-// Info page
-app.get('/info', (req, res) => {
-  res.redirect('/search');
-});
-
 // Get more info on selected movie
-app.post('/get-info', (req, res) => {
-  const title = req.body.title;
-  const year = req.body.year.substr(0, 4);
-  getMovie(title, year, function(msg) {
+app.get('/info', (req, res) => {
+  const movieId = req.body.id;
+  getMovie(movieId, function(msg) {
+    console.log(msg);
     res.render('info', {
       title: title,
-      search: msg
+      result: msg
     });
   });
 });
@@ -82,9 +77,9 @@ app.post('/submit-form', (req, res) => {
 
 // Add requested movie to watchlist
 app.post('/add', (req, res) => {
-  const toAdd = req.body.title;
+  const toAdd = req.body.title + " # " + req.body.id;
   const request = require('request');
-  var fullUrl = req.protocol + '://' + req.get('host') + '/api/watchLists/' + user +'/items';
+  var fullUrl = req.protocol + '://' + req.get('host') + '/api/watchLists/' + user + '/items';
   request.post(fullUrl, {
     json: {
       content: toAdd
@@ -101,8 +96,7 @@ app.post('/add', (req, res) => {
 });
 
 // Delete requested movie from watchlist
-app.post('/delete', (req, res) =>{
-  console.log('delete called');
+app.post('/delete', (req, res) => {
   const toDelete = req.body.title;
   const itemId = req.body.itemId;
   const request = require('request');

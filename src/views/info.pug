@@ -4,7 +4,6 @@ block content
   // Ellie Parobek
   // Information page
   div.main
-    div.result
-      form(method='post', action='/add')
-        p(name='info') #{result.Title} - #{result.Year} &ensp;
-          input(type='submit' id='infoButton' value='Add to WatchList' class='waves-effect btn')
+    p(name='info') #{result.Title} - #{result.Year} &ensp;
+    p(name='plot') #{result.Plot}
+    img(href=#{result.Poster})

@@ -28,10 +28,9 @@ module.exports = {
         var omdb = require('omdb-client');
         var params = {
             apiKey: '906d3817',
-            query: toGet,
-            year: parseInt(yearGet)
+            id: toGet
         }
-        omdb.search(params, function(err, movie) {
+        omdb.get(params, function(err, movie) {
             if(err) {
                 callback('{ error: "' + err + '" }');
             }
