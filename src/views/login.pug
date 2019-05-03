@@ -1,0 +1,10 @@
+extends template
+
+block content
+  // Ellie Parobek
+  // Login page
+  div.container
+    form(method='post', action='/login')
+      input(name='username')
+      input(name='password' type='password')
+      input(type='submit' id='loginButton' value='Login' class='waves-effect btn green darken-2')

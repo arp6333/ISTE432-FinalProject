@@ -18,12 +18,38 @@ app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/public'));
 
 require('./server/routes')(app);
-
-// Get the logged in user ID.
 var user = 1;
+/* // Get the logged in user ID. If 0, redirect to login when trying to view pages.
+
+app.get('/login', (req, res) => {
+  res.render('login', {
+    title: 'Login'
+  });
+});
+// Do login
+app.post('/login', (req, res) => {
+  if(user == 0){
+    res.redirect('/login');
+  }
+
+});
+
+// Register page
+app.get('/register', (req, res) => {
+  res.render('register', {
+    title: 'Login'
+  });
+});
+// Do register
+app.post('/register', (req, res) => {
+  
+}); */
 
 // Home page
 app.get('/', (req, res) => {
+  if(user == 0){
+    res.redirect('/login');
+  }
   const request = require('request');
   var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl + 'api/watchLists/' + user;
   request(fullUrl, function (error, response, body) {
@@ -41,6 +67,9 @@ app.get('/', (req, res) => {
 
 // Search page
 app.get('/search', (req, res) => {
+  if(user == 0){
+    res.redirect('/login');
+  }
   res.render('search', {
     title: 'Search',
     search: "{}"
@@ -49,6 +78,9 @@ app.get('/search', (req, res) => {
 
 // Search page with a searched index
 app.get('/search/:toSearch', (req, res) => {
+  if(user == 0){
+    res.redirect('/login');
+  }
   searchMovie(req.params.toSearch, function(msg) {
     res.render('searchSomething', {
       title: 'Search',
@@ -59,6 +91,9 @@ app.get('/search/:toSearch', (req, res) => {
 
 // Get more info on selected movie
 app.post('/info', (req, res) => {
+  if(user == 0){
+    res.redirect('/login');
+  }
   const movieId = req.body.id;
   getMovie(movieId, function(msg) {
     console.log(msg);
@@ -71,17 +106,26 @@ app.post('/info', (req, res) => {
 
 // Get more info on selected movie
 app.get('/info', (req, res) => {
+  if(user == 0){
+    res.redirect('/login');
+  }
   res.redirect('/search');
 });
 
 // Get requested search and redirect
 app.post('/submit-form', (req, res) => {
+  if(user == 0){
+    res.redirect('/login');
+  }
   const toSearch = req.body.search;
   res.redirect('/search/' + toSearch);
 });
 
 // Add requested movie to watchlist
 app.post('/add', (req, res) => {
+  if(user == 0){
+    res.redirect('/login');
+  }
   const toAdd = req.body.title;
   const request = require('request');
   var fullUrl = req.protocol + '://' + req.get('host') + '/api/watchLists/' + user + '/items';
@@ -102,6 +146,9 @@ app.post('/add', (req, res) => {
 
 // Delete requested movie from watchlist
 app.post('/delete', (req, res) => {
+  if(user == 0){
+    res.redirect('/login');
+  }
   const toDelete = req.body.title;
   const itemId = req.body.id;
   const request = require('request');
@@ -123,24 +170,36 @@ app.post('/delete', (req, res) => {
 
 // Any other page attempt to be called
 app.get('*', (req, res) => {
+  if(user == 0){
+    res.redirect('/login');
+  }
   res.render('error', {
     title: 'Error',
     code: '404 - Page not found.'
   });
 });
 app.post('*', (req, res) => {
+  if(user == 0){
+    res.redirect('/login');
+  }
   res.render('error', {
     title: 'Error',
     code: '404 - Page not found.'
   });
 });
 app.delete('*', (req, res) => {
+  if(user == 0){
+    res.redirect('/login');
+  }
   res.render('error', {
     title: 'Error',
     code: '404 - Page not found.'
   });
 });
 app.put('*', (req, res) => {
+  if(user == 0){
+    res.redirect('/login');
+  }
   res.render('error', {
     title: 'Error',
     code: '404 - Page not found.'
