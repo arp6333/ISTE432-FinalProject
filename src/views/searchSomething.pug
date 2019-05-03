@@ -7,11 +7,13 @@ block content
     form(method='post', action='/submit-form')
       input(type='text', placeholder='Search', name='search')
       input(type='submit' id='searchButton' value='Search' class='waves-effect btn')
-  div.results
+  div
     each result in search
       div(id='results')
         form(method='post', action='/add')
           input(name='title' readonly value=result.Title)
-          input(name='year' readonly value=result.Year)
+          input(class='short' name='year' readonly value=result.Year)
+          input(type='submit' id='addButton' value='Add to WatchList' class='addButton waves-effect btn')
+        form(method='post' action='/info')
           input(name='id' class='hidden' readonly value=result.imdbID)
-          input(type='submit' id='addButton' value='Add to WatchList' class='waves-effect btn')
+          input(type='submit' id='moreInfoButton' value='More Info' class='waves-effect btn purple darken-2')

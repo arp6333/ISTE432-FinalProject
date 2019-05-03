@@ -3,7 +3,51 @@ extends template
 block content
   // Ellie Parobek
   // Information page
-  div.main
-    p(name='info') #{result.Title} - #{result.Year} &ensp;
-    p(name='plot') #{result.Plot}
-    img(href=#{result.Poster})
+  div.info
+    p(id='titleInfo') #{result.Title} - #{result.Year} &ensp;
+    .image-block
+      img(src= result.Poster, alt='- No Image Available -')
+      p(id='plot' class='flow-text') #{result.Plot}
+    a(class='collapsible2 waves-effect btn purple lighten-2') Ratings
+    div(class='content')
+      ul
+        each rating in result.Ratings
+          li(class='collection-item') #{rating.Source}: #{rating.Value}
+        li(class='collection-item') Metascore: #{result.Metascore}
+    
+    ul
+      li Rating: #{result.Rated}
+      li Genres: #{result.Genre}
+      li Runtime: #{result.Runtime}, Total Seasons: #{totalSeasons}
+      li Director: #{result.Director}, Writer: #{result.Writer}
+      li Awards: #{result.Awards}
+    a(class='collapsible waves-effect btn purple lighten-2') Actors
+    div(class='content') 
+      p #{result.Actors}
+    script.
+      var coll = document.getElementsByClassName("collapsible");
+      for(var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var content = this.nextElementSibling;
+          if (content.style.display === "block") {
+            content.style.display = "none";
+          } else {
+            content.style.display = "block";
+          }
+        });
+      }
+    script.
+      var coll2 = document.getElementsByClassName("collapsible2");
+      for(var i = 0; i < coll.length; i++){
+        coll2[i].addEventListener("click", function(){
+          this.classList.toggle("active");
+          var content = this.nextElementSibling;
+          if(content.style.display === "block"){
+            content.style.display = "none";
+          } 
+          else{
+            content.style.display = "block";
+          }
+        });
+      } 

@@ -24,7 +24,7 @@ module.exports = {
     },
 
     // Get info on a given movie.
-    getMovie: function(toGet, yearGet, callback){
+    getMovie: function(toGet, callback){
         var omdb = require('omdb-client');
         var params = {
             apiKey: '906d3817',
@@ -34,7 +34,7 @@ module.exports = {
             if(err) {
                 callback('{ error: "' + err + '" }');
             }
-            callback(movie['Search']);
+            callback(movie);
         });
     },
 }
