@@ -309,9 +309,6 @@ Assuming a full website, a help forum would be available with someone who unders
 [ISTE432-FinalProject](https://github.com/arp6333/ISTE432-FinalProject)
 
 ## Timeline
-
-| Date       | User | Title            | Description |
-|:-----------|:-----|:-----------------|: -----------|
-| 04/26/19 | Ellie | Created Document | Edited existing document. |
-| 04/27/19 | Ellie  | Back-end Creation  | Created back-end. |
-| 04/28/19 | Ellie  | Front-end Creation  | Started front-end. |
+04/26/19 - Created Document - Edited existing document.
+04/27/19 - Back-end Creation - Created back-end.
+04/28/19-05/03/19 - Front-end Creation - Created front-end.
